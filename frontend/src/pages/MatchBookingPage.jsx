@@ -87,21 +87,26 @@ export default function MatchBookingPage() {
             <label className="block text-lg font-medium">Select Tables Options</label>
             <div className="flex items-center space-x-6 bg-white/5 p-4 rounded-lg border border-white/10">
               <Users className="text-gray-400" />
-              <div className="flex-1">
-                <input 
-                  type="range" 
-                  min="1" 
-                  max="5" 
-                  value={tables} 
-                  onChange={(e) => setTables(parseInt(e.target.value))}
-                  className="w-full accent-hcRed"
-                />
-                <div className="flex justify-between text-xs text-gray-500 mt-2">
-                  <span>1 Table</span>
-                  <span>5 Tables</span>
+              <div className="flex-1 flex items-center justify-between">
+                <span className="text-gray-300">Number of Tables</span>
+                <div className="flex items-center space-x-4 bg-black/40 rounded-lg px-2 py-1">
+                  <button 
+                    onClick={() => setTables(t => Math.max(1, t - 1))}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xl ${tables === 1 ? 'text-gray-600 bg-gray-800 cursor-not-allowed' : 'text-hcRed bg-white/10 hover:bg-white/20 transition-colors'}`}
+                    disabled={tables <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="text-xl font-bold w-4 text-center">{tables}</span>
+                  <button 
+                    onClick={() => setTables(t => Math.min(5, t + 1))}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xl ${tables === 5 ? 'text-gray-600 bg-gray-800 cursor-not-allowed' : 'text-hcRed bg-white/10 hover:bg-white/20 transition-colors'}`}
+                    disabled={tables >= 5}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-              <div className="text-2xl font-bold w-12 text-center text-white">{tables}</div>
             </div>
           </div>
 

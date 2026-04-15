@@ -22,9 +22,13 @@ export default function LandingPage() {
         console.warn("Using fallback local match data because backend is unreachable or empty.");
         // Fallback Data based on the user's uploaded poster exactly
         setMatches([
-            { id: 1, team1: "CSK", team2: "RCB", matchDate: "2026-04-05", matchTime: "19:30:00", posterUrl: "/poster.jpg" },
-            { id: 2, team1: "Coming Soon", team2: "TBD", matchDate: "2026-04-10", matchTime: "19:30:00", posterUrl: "https://fakeimg.pl/600x400/222222/fff/?text=Coming+Soon" },
-            { id: 3, team1: "Coming Soon", team2: "TBD", matchDate: "2026-04-14", matchTime: "19:30:00", posterUrl: "https://fakeimg.pl/600x400/222222/fff/?text=Coming+Soon" }
+            { id: 1, team1: "CSK", team2: "RCB", matchDate: "2026-04-05", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 2, team1: "RCB", team2: "RR", matchDate: "2026-04-10", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 3, team1: "RCB", team2: "MI", matchDate: "2026-04-12", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 4, team1: "RCB", team2: "LSG", matchDate: "2026-04-15", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 5, team1: "RCB", team2: "KKR", matchDate: "2026-04-18", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 6, team1: "RCB", team2: "SRH", matchDate: "2026-04-22", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 7, team1: "RCB", team2: "PBKS", matchDate: "2026-04-25", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" }
         ]);
       } finally {
         setLoading(false);
@@ -57,19 +61,21 @@ export default function LandingPage() {
           </div>
         ) : (
           <div className="flex overflow-x-auto space-x-6 pb-8 pt-4 hide-scrollbar px-2">
-            {matches.map((match) => (
+            {matches.map((match) => {
+              const isPastMatch = new Date(`${match.matchDate}T${match.matchTime || '00:00:00'}`) < new Date();
+              return (
               <div 
                 key={match.id} 
                 className="glass-card min-w-[320px] md:min-w-[400px] flex-shrink-0 group overflow-hidden transition-all duration-300 hover:border-white/30"
               >
                 <div 
-                  className={`h-48 md:h-56 w-full relative overflow-hidden bg-black/50 ${match.team1 !== 'Coming Soon' ? 'cursor-pointer' : ''}`}
+                  className={`h-48 md:h-56 w-full relative overflow-hidden bg-black/50 ${match.team1 !== 'Coming Soon' && !isPastMatch ? 'cursor-pointer' : ''}`}
                   onClick={() => {
-                        if(match.team1 !== 'Coming Soon') navigate(`/book/${match.id}`);
+                        if(match.team1 !== 'Coming Soon' && !isPastMatch) navigate(`/book/${match.id}`);
                   }}
                 >
                   <img 
-                    src={match.posterUrl !== '/poster.jpg' && match.posterUrl !== '/coming-soon.jpg' ? match.posterUrl : (match.posterUrl === '/poster.jpg' ? '/poster.jpg' : `https://fakeimg.pl/600x400/990000/fff/?text=${match.team1}+vs+${match.team2}`)}
+                    src={match.posterUrl || '/rcb-poster.jpg'}
                     alt="Match Poster" 
                     onError={(e) => { e.currentTarget.src = `https://fakeimg.pl/600x400/990000/fff/?text=${match.team1}+vs+${match.team2}`; }}
                     className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
@@ -90,18 +96,18 @@ export default function LandingPage() {
                   
                   <button 
                     onClick={() => {
-                        if(match.team1 === 'Coming Soon') return;
+                        if(match.team1 === 'Coming Soon' || isPastMatch) return;
                         navigate(`/book/${match.id}`)
                     }}
-                    disabled={match.team1 === 'Coming Soon'}
-                    className={`w-full py-3 rounded-lg font-semibold flex justify-center items-center transition-all ${match.team1 === 'Coming Soon' ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'btn-primary'}`}
+                    disabled={match.team1 === 'Coming Soon' || isPastMatch}
+                    className={`w-full py-3 rounded-lg font-semibold flex justify-center items-center transition-all ${match.team1 === 'Coming Soon' ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : isPastMatch ? 'bg-gray-800 text-gray-400 cursor-not-allowed' : 'btn-primary'}`}
                   >
-                    {match.team1 === 'Coming Soon' ? 'Coming Soon' : 'Book Table (₹499)'}
-                    <ChevronRight size={18} className="ml-1" />
+                    {match.team1 === 'Coming Soon' ? 'Coming Soon' : isPastMatch ? 'Match Completed' : 'Book Table (₹499)'}
+                    {!(match.team1 === 'Coming Soon' || isPastMatch) && <ChevronRight size={18} className="ml-1" />}
                   </button>
                 </div>
               </div>
-            ))}
+            )})}
             
             {matches.length === 0 && (
                 <div className="text-center text-gray-500 w-full py-10">No upcoming matches available.</div>

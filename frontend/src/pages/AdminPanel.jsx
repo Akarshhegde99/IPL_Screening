@@ -17,16 +17,61 @@ export default function AdminPanel() {
     }
   }, [navigate]);
 
-  const handleSearch = async (e) => {
-    e?.preventDefault();
-    if (!bookingIdInput.trim()) return;
+  const [scannerEnabled, setScannerEnabled] = useState(false);
+
+  useEffect(() => {
+    // Dynamically load html5-qrcode script
+    if (!window.Html5QrcodeScanner) {
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/html5-qrcode";
+        script.async = true;
+        document.body.appendChild(script);
+        
+        return () => {
+            document.body.removeChild(script);
+        };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (scannerEnabled && window.Html5QrcodeScanner) {
+        const html5QrcodeScanner = new window.Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            false
+        );
+
+        html5QrcodeScanner.render(
+            (decodedText) => {
+                // Success callback
+                setBookingIdInput(decodedText);
+                setScannerEnabled(false);
+                html5QrcodeScanner.clear();
+                // trigger search
+                handleSearch(null, decodedText);
+            },
+            (error) => {
+                // Ignore ongoing scanning errors unless critical
+            }
+        );
+
+        return () => {
+            html5QrcodeScanner.clear().catch(e => console.error("Failed to clear scanner", e));
+        };
+    }
+  }, [scannerEnabled]);
+
+  const handleSearch = async (e, idOverride = null) => {
+    if (e) e.preventDefault();
+    const searchId = idOverride || bookingIdInput;
+    if (!searchId || !searchId.trim()) return;
 
     setLoading(true);
     setError('');
     setBooking(null);
 
     try {
-        const response = await axios.get(`${API_URL}/bookings/${bookingIdInput}`);
+        const response = await axios.get(`${API_URL}/bookings/${searchId}`);
         setBooking(response.data);
     } catch (err) {
         setError('Booking not found or invalid UUID');
@@ -50,10 +95,23 @@ export default function AdminPanel() {
         </div>
 
         <div className="glass-card p-6 mb-8">
+            <div className="flex justify-center mb-6">
+                 <button 
+                    onClick={() => setScannerEnabled(!scannerEnabled)} 
+                    className={`font-bold py-2 px-4 rounded ${scannerEnabled ? 'bg-gray-600' : 'bg-red-600 hover:bg-red-500'} text-white w-full`}
+                 >
+                    {scannerEnabled ? 'Close Camera Scanner' : 'Open Camera Scanner'}
+                 </button>
+            </div>
+            
+            {scannerEnabled && (
+                <div id="reader" className="w-full bg-black mb-6 border-2 border-red-900 rounded overflow-hidden"></div>
+            )}
+
             <form onSubmit={handleSearch} className="flex gap-2">
                 <input
                     type="text"
-                    className="input-field font-mono text-sm"
+                    className="input-field font-mono text-sm w-full bg-black/40 border border-white/20 p-3 rounded"
                     placeholder="Enter Booking ID (or scan QR)"
                     value={bookingIdInput}
                     onChange={(e) => setBookingIdInput(e.target.value)}
