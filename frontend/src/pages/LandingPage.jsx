@@ -22,13 +22,12 @@ export default function LandingPage() {
         console.warn("Using fallback local match data because backend is unreachable or empty.");
         // Fallback Data based on the user's uploaded poster exactly
         setMatches([
-            { id: 1, team1: "CSK", team2: "RCB", matchDate: "2026-04-05", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 2, team1: "RCB", team2: "RR", matchDate: "2026-04-10", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 3, team1: "RCB", team2: "MI", matchDate: "2026-04-12", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 4, team1: "RCB", team2: "LSG", matchDate: "2026-04-15", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 5, team1: "RCB", team2: "KKR", matchDate: "2026-04-18", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 6, team1: "RCB", team2: "SRH", matchDate: "2026-04-22", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
-            { id: 7, team1: "RCB", team2: "PBKS", matchDate: "2026-04-25", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" }
+            { id: 1, team1: "LSG", team2: "RCB", matchDate: "2026-04-15", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 2, team1: "RCB", team2: "DC", matchDate: "2026-04-18", matchTime: "15:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 3, team1: "RCB", team2: "GT", matchDate: "2026-04-24", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 4, team1: "DC", team2: "RCB", matchDate: "2026-04-27", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 5, team1: "GT", team2: "RCB", matchDate: "2026-04-30", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+            { id: 6, team1: "LSG", team2: "RCB", matchDate: "2026-05-07", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" }
         ]);
       } finally {
         setLoading(false);

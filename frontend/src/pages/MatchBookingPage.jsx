@@ -20,9 +20,12 @@ export default function MatchBookingPage() {
     const fetchMatch = async () => {
       // Fallback Data
       const fallbackMatches = [
-        { id: 1, team1: "CSK", team2: "RCB", matchDate: "2026-04-05", matchTime: "19:30:00", posterUrl: "/poster.jpg" },
-        { id: 2, team1: "Coming Soon", team2: "TBD", matchDate: "2026-04-10", matchTime: "19:30:00", posterUrl: "/coming-soon.jpg" },
-        { id: 3, team1: "Coming Soon", team2: "TBD", matchDate: "2026-04-14", matchTime: "19:30:00", posterUrl: "/coming-soon.jpg" }
+        { id: 1, team1: "LSG", team2: "RCB", matchDate: "2026-04-15", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+        { id: 2, team1: "RCB", team2: "DC", matchDate: "2026-04-18", matchTime: "15:30:00", posterUrl: "/rcb-poster.jpg" },
+        { id: 3, team1: "RCB", team2: "GT", matchDate: "2026-04-24", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+        { id: 4, team1: "DC", team2: "RCB", matchDate: "2026-04-27", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+        { id: 5, team1: "GT", team2: "RCB", matchDate: "2026-04-30", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" },
+        { id: 6, team1: "LSG", team2: "RCB", matchDate: "2026-05-07", matchTime: "19:30:00", posterUrl: "/rcb-poster.jpg" }
       ];
 
       try {

@@ -11,6 +11,8 @@ import InvoicePage from './pages/InvoicePage';
 import AdminLogin from './pages/AdminLogin';
 import AdminPanel from './pages/AdminPanel';
 
+import logo from './assets/logo.png';
+
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
   if (!user) {
@@ -28,10 +30,13 @@ function App() {
             {/* Simple Navbar */}
             <nav className="p-4 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0 z-50">
               <div className="max-w-6xl mx-auto flex items-center justify-between">
-                <div className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
-                  Harvey's Cafe
+                <div className="flex items-center gap-3">
+                  <img src={logo} alt="Harvey's Cafe Logo" className="w-12 h-12 rounded-full object-cover shadow-[0_0_10px_rgba(239,68,68,0.3)]" />
+                  <div className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
+                    Harvey's Cafe
+                  </div>
                 </div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest font-semibold">
+                <div className="text-xs text-gray-400 uppercase tracking-widest font-semibold hidden sm:block">
                   IPL Screenings
                 </div>
               </div>
