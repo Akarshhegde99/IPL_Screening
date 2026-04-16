@@ -45,9 +45,9 @@ public class AppController {
 
     @GetMapping("/bookings/{id}")
     public ResponseEntity<?> getBooking(@PathVariable String id) {
-        Optional<Booking> booking = bookingRepository.findById(id);
-        if (booking.isPresent()) {
-            return ResponseEntity.ok(booking.get());
+        List<Booking> bookings = bookingRepository.findByIdStartingWithIgnoreCase(id);
+        if (!bookings.isEmpty()) {
+            return ResponseEntity.ok(bookings.get(0));
         }
         return ResponseEntity.notFound().build();
     }

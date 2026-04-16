@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, String> {
     List<Booking> findByUserId(Long userId);
+    List<Booking> findByIdStartingWithIgnoreCase(String shortId);
 }
