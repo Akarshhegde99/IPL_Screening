@@ -34,12 +34,7 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- H2 Database for local development (bypassing MySQL password) -->
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
+    <!-- Removed H2 Database -->
 
     <!-- MySQL Driver (kept for production later) -->
     <dependency>
